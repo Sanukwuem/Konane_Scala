@@ -7,7 +7,7 @@ var count = 0
 var numbOfColumns = 8
 
 
-val boardArray = Array.ofDim[String](9,9)
+val boardArray = Array.ofDim[String](8, 8)
 ///////////////////////////////////////////
 
 // Start of game
@@ -256,106 +256,20 @@ def empty(row:Int, col:Int) = {
 }
 
 def jump(row:Int, col:Int, row2:Int, col2:Int) = {
-	
-	if(col2 == 8){
-		//vertical
-		if(col == 6){
-			boardArray(row2-1)(col2-8) = boardArray(row-1)(col-4)
-		}
-		else if(col == 4){
-			boardArray(row2-1)(col2-8) = boardArray(row-1)(col)
-		}
-		else{
-			boardArray(row2-1)(col2-8) = boardArray(row-1)(col-8)
-		}	
-	}
-	if(col2 == 7){
-		if(col == 5){
-			boardArray(row2-1)(col2-6) = boardArray(row-1)(col-2)
-		}
-		else if(col == 3){
-			boardArray(row2-1)(col2-6) = boardArray(row-1)(col+2)
-		}
-		else{
-			boardArray(row2-1)(col2-6) = boardArray(row-1)(col-6)
-		}
-	}
-	if(col2 == 6){
-		if(col == 8){
-			boardArray(row2-1)(col2-4) = boardArray(row-1)(col-8)
-		}
-		else if(col == 4){
-			boardArray(row2-1)(col2-4) = boardArray(row-1)(col)
-		}
-		else if(col == 2){
-			boardArray(row2-1)(col2-4) = boardArray(row-1)(col+4)
-		}
-		else{
-			boardArray(row2-1)(col2-4) = boardArray(row-1)(col-4)
-		}
-	}
-	if(col2 == 5){
-		if(col == 7){
-			boardArray(row2-1)(col2-2) = boardArray(row-1)(col-6)
-		}
-		else if(col == 3){
-			boardArray(row2-1)(col2-2) = boardArray(row-1)(col+2)
-		}
-		else if(col == 1){
-			boardArray(row2-1)(col2-2) = boardArray(row-1)(col+6)
-		}
-		else{
-			boardArray(row2-1)(col2-2) = boardArray(row-1)(col-2)
-		}
-	}
-	if(col2 == 4){
-		if(col == 8){
-			boardArray(row2-1)(col2) = boardArray(row-1)(col-8)
-		}
-		else if(col == 6){
-			boardArray(row2-1)(col2) = boardArray(row-1)(col-4)
-		}
-		else if(col == 2){
-			boardArray(row2-1)(col2) = boardArray(row-1)(col+4)
-		}
-		else{
-			boardArray(row2-1)(col2) = boardArray(row-1)(col)
-		}
-	}
-	if(col2 == 3){
-		if(col == 7){
-			boardArray(row2-1)(col2+2) = boardArray(row-1)(col-6)
-		}
-		else if(col == 5){
-			boardArray(row2-1)(col2+2) = boardArray(row-1)(col-2)
-		}
-		else if(col == 1){
-			boardArray(row2-1)(col2+2) = boardArray(row-1)(col+6)
-		}
-		else{
-			boardArray(row2-1)(col2+2) = boardArray(row-1)(col+2)
-		}
-	}
-	if(col2 == 2){
-		if(col == 4){
-			boardArray(row2-1)(col2+4) = boardArray(row-1)(col)
-		}
-		else if(col == 6){
-			boardArray(row2-1)(col2+4) = boardArray(row-1)(col-4)
-		}
-		else{
-			boardArray(row2-1)(col2+4) = boardArray(row-1)(col+4)
-		}
-	}
-	if(col2 == 1){
-		if(col == 3){
-			boardArray(row2-1)(col2+6) = boardArray(row-1)(col+2)
-		}
-		else if(col == 5){
-			boardArray(row2-1)(col2+6) = boardArray(row-1)(col-2)
-		}
-		else{
-			boardArray(row2-1)(col2+6) = boardArray(row-1)(col+6)
-		}
-	}
+
+	val newCol = colConversion(col)
+	val newCol2 = colConversion(col2)
+
+	boardArray(row2-1)(newCol2) = boardArray(row-1)(newCol)
+}
+
+def colConversion(col: Int): Int = col match {
+	case 8 => 0
+	case 7 => 1
+	case 6 => 2
+	case 5 => 3
+	case 4 => 4
+ 	case 3 => 5
+ 	case 2 => 6
+ 	case 1 => 7
 }
