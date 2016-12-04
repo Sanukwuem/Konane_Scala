@@ -13,6 +13,7 @@ val boardArray = Array.ofDim[String](9,9)
 // Start of game
 initialBoard
 pickPieces
+mainGame
 
 
 
@@ -26,11 +27,11 @@ print("\n   ")
 for (n <- 1 to numbOfColumns ){
 print(n + "   ")
 }
-for (col <- 0 until boardSize) {
+for (row <- 0 until boardSize){
 		println()
 		print (numbOfRows + " |")
 		numbOfRows = numbOfRows - 1
-	for (row <- 0 until boardSize){
+	for (col <- 0 until boardSize) {
 		count = count + 1
 		
 		
@@ -107,6 +108,124 @@ def pickPieces = {
 	printBoard	
 }
 
+def mainGame: String = {
+	var countX = 0
+	var countO = 0
+	var r = 0
+	var c = 0
+
+	println("\n\nDark Player Turn: ")
+	println("Specify where you are jumping from and to")
+	println("\nFrom")
+	println("Enter Row")
+	val row = scala.io.StdIn.readInt()
+	println("Enter Column")
+	val col = scala.io.StdIn.readInt
+	
+	println("\nTo")
+	println("Enter Row 2")
+	val row2 = scala.io.StdIn.readInt()
+	println("Enter Column 2")
+	val col2 = scala.io.StdIn.readInt()
+	makeJump(row, col, row2, col2)
+		
+	println("\n\nLight Player Turn: ")
+	println("Specify where you are jumping from and to")
+	println("\nFrom")
+	println("Enter Row")
+	val row3 = scala.io.StdIn.readInt()
+	println("Enter Column")
+	val col3 = scala.io.StdIn.readInt
+	
+	println("\nTo")
+	println("Enter Row 2")
+	val row4 = scala.io.StdIn.readInt()
+	println("Enter Column 2")
+	val col4 = scala.io.StdIn.readInt()
+
+	makeJump(row3, col3, row4, col4)
+	
+	for (r <- 0 until boardSize){
+		for (c <- 0 until 8){
+			if(boardArray(r)(c) == "X"){
+				countX = countX + 1
+			}
+			if(boardArray(r)(c) == "O"){
+				countO = countO + 1
+				
+			}
+			
+		}
+	}
+	println("\n\nDark Pieces Left " + countX)
+	println("Light Pieces Left " + countO)
+	
+	if(countX < 28){
+	println("\n\nGame over, Light Player Wins")
+	System.exit(0)
+	}
+	if(countO < 28){
+	println("\n\nGame over, Light Player Wins")
+	System.exit(0)
+	}
+	
+	mainGame
+	
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+def makeJump(row:Int, col:Int, row2:Int, col2:Int) = {
+	jump(row,col,row2,col2)
+	empty(row,col)
+	
+	if(row - row2 == 2){
+		empty(row - 1, col)
+	}
+	if(row - row2 == -2){
+		empty(row + 1, col)
+	}
+	if(col - col2 == 2){
+		empty(row, col - 1)
+	}
+	if(col - col2 == -2){
+		empty(row, col + 1)
+	}
+	
+	if(row - row2 == 4){
+		empty(row - 1, col)
+		empty(row - 3, col)
+	}
+	if(row - row2 == -4){
+		empty(row + 1, col)
+		empty(row + 3, col)
+	}
+	if(col - col2 == 4){
+		empty(row, col - 1)
+		empty(row, col - 3)
+		
+	}
+	if(col - col2 == -4){
+		empty(row, col + 1)
+		empty(row, col + 3)
+	}
+	
+	printBoard
+	
+}
 
 def printBoard = {
 var numbOfRows = 8
@@ -151,5 +270,33 @@ def empty(row:Int, col:Int) = {
 	}
 	if(col == 1){
 	boardArray(row-1)(col+6) = "."
+	}
+}
+
+def jump(row:Int, col:Int, row2:Int, col2:Int) = {
+	
+	if(col2 == 8){
+	boardArray(row2-1)(col2-8) = boardArray(row-1)(col-8)	
+	}
+	if(col2 == 7){
+	boardArray(row2-1)(col2-6) = boardArray(row-1)(col-6)
+	}
+	if(col2 == 6){
+	boardArray(row2-1)(col2-4) = boardArray(row-1)(col-4)
+	}
+	if(col2 == 5){
+	boardArray(row2-1)(col2-2) = boardArray(row-1)(col-2)
+	}
+	if(col2 == 4){
+	boardArray(row2-1)(col2) = boardArray(row-1)(col)
+	}
+	if(col2 == 3){
+	boardArray(row2-1)(col2+2) = boardArray(row-1)(col+2)
+	}
+	if(col2 == 2){
+	boardArray(row2-1)(col2+4) = boardArray(row-1)(col+4)
+	}
+	if(col2 == 1){
+	boardArray(row2-1)(col2+6) = boardArray(row-1)(col+6)
 	}
 }
