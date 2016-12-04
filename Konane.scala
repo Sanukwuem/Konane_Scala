@@ -160,11 +160,11 @@ def mainGame: String = {
 	println("\n\nDark Pieces Left " + countX)
 	println("Light Pieces Left " + countO)
 	
-	if(countX < 28){
+	if(countX == 0){
 	println("\n\nGame over, Light Player Wins")
 	System.exit(0)
 	}
-	if(countO < 28){
+	if(countO == 0){
 	println("\n\nGame over, Light Player Wins")
 	System.exit(0)
 	}
@@ -276,27 +276,104 @@ def empty(row:Int, col:Int) = {
 def jump(row:Int, col:Int, row2:Int, col2:Int) = {
 	
 	if(col2 == 8){
-	boardArray(row2-1)(col2-8) = boardArray(row-1)(col-8)	
+	//vertical
+	if(col == 6){
+	boardArray(row2-1)(col2-8) = boardArray(row-1)(col-4)
+	}
+	if(col == 4){
+	boardArray(row2-1)(col2-8) = boardArray(row-1)(col)
+	}
+	else{
+	boardArray(row2-1)(col2-8) = boardArray(row-1)(col-8)
+	}	
 	}
 	if(col2 == 7){
+	if(col == 5){
+	boardArray(row2-1)(col2-6) = boardArray(row-1)(col-2)
+	}
+	if(col == 3){
+	boardArray(row2-1)(col2-6) = boardArray(row-1)(col+2)
+	}
+	else{
 	boardArray(row2-1)(col2-6) = boardArray(row-1)(col-6)
 	}
+	}
 	if(col2 == 6){
+	if(col == 8){
+	boardArray(row2-1)(col2-4) = boardArray(row-1)(col-8)
+	}
+	if(col == 4){
+	boardArray(row2-1)(col2-4) = boardArray(row-1)(col)
+	}
+	if(col == 2){
+	boardArray(row2-1)(col2-4) = boardArray(row-1)(col+4)
+	}
+	else{
 	boardArray(row2-1)(col2-4) = boardArray(row-1)(col-4)
 	}
+	}
 	if(col2 == 5){
+	if(col == 7){
+	boardArray(row2-1)(col2-2) = boardArray(row-1)(col-6)
+	}
+	if(col == 3){
+	boardArray(row2-1)(col2-2) = boardArray(row-1)(col+2)
+	}
+	if(col == 1){
+	boardArray(row2-1)(col2-2) = boardArray(row-1)(col+6)
+	}
+	else{
 	boardArray(row2-1)(col2-2) = boardArray(row-1)(col-2)
 	}
+	}
 	if(col2 == 4){
+	if(col == 8){
+	boardArray(row2-1)(col2) = boardArray(row-1)(col-8)
+	}
+	if(col == 6){
+	boardArray(row2-1)(col2) = boardArray(row-1)(col-4)
+	}
+	if(col == 2){
+	boardArray(row2-1)(col2) = boardArray(row-1)(col+4)
+	}
+	else{
 	boardArray(row2-1)(col2) = boardArray(row-1)(col)
 	}
+	}
 	if(col2 == 3){
+	if(col == 7){
+	boardArray(row2-1)(col2+2) = boardArray(row-1)(col-6)
+	}
+	if(col == 5){
+	boardArray(row2-1)(col2+2) = boardArray(row-1)(col-2)
+	}
+	if(col == 1){
+	boardArray(row2-1)(col2+2) = boardArray(row-1)(col+6)
+	}
+	else{
 	boardArray(row2-1)(col2+2) = boardArray(row-1)(col+2)
 	}
+	}
 	if(col2 == 2){
+	if(col == 4){
+	boardArray(row2-1)(col2+4) = boardArray(row-1)(col)
+	}
+	if(col == 6){
+	boardArray(row2-1)(col2+4) = boardArray(row-1)(col-4)
+	}
+	else{
 	boardArray(row2-1)(col2+4) = boardArray(row-1)(col+4)
 	}
+	}
 	if(col2 == 1){
+	if(col == 3){
+	boardArray(row2-1)(col2+6) = boardArray(row-1)(col+2)
+	}
+	if(col == 5){
+	boardArray(row2-1)(col2+6) = boardArray(row-1)(col-2)
+	}
+	else{
 	boardArray(row2-1)(col2+6) = boardArray(row-1)(col+6)
+	}
 	}
 }
