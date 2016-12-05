@@ -75,6 +75,7 @@ def pickPieces = {
 	
 	empty(row,col)
 	printBoard
+	println()
 	
 	if(row == 1 && col == 8){
 		println("\n\nPick Adjacent Piece. Choices include (1,7) and (2,8)")
@@ -87,6 +88,15 @@ def pickPieces = {
 	
 	if(row == 4 && col == 5){
 		println("\n\nPick Adjacent Piece. Choices include (3,5) (4,6) (5,5) and (4,4)")
+		println("\nEnter Row")
+		val row = scala.io.StdIn.readInt()
+		println("Enter Column")
+		val col = scala.io.StdIn.readInt()
+		empty(row,col)
+	}
+
+	if(row == 5 && col == 4){
+		println("\n\nPick Adjacent Piece. Choices include (4,4) (5,5) (6,4) and (5,3)")
 		println("\nEnter Row")
 		val row = scala.io.StdIn.readInt()
 		println("Enter Column")
@@ -110,37 +120,47 @@ def mainGame: String = {
 	var countO = 0
 	var r = 0
 	var c = 0
-
-	println("\n\nDark Player Turn: ")
-	println("Specify where you are jumping from and to")
-	println("\nFrom")
-	println("Enter Row")
-	val row = scala.io.StdIn.readInt()
-	println("Enter Column")
-	val col = scala.io.StdIn.readInt
-	
-	println("\nTo")
-	println("Enter Row 2")
-	val row2 = scala.io.StdIn.readInt()
-	println("Enter Column 2")
-	val col2 = scala.io.StdIn.readInt()
-	makeJump(row, col, row2, col2)
+	var row = 0
+	var col = 0
+	var row2 = 0
+	var col2 = 0 
+	var row3 = 0
+	var col3 = 0
+	var row4 = 0
+	var col4 = 0
+	do
+	{
+		println("\n\nDark Player Turn: ")
+		println("Specify where you are jumping from and to")
+		println("\nFrom")
+		println("Enter Row")
+		 row = scala.io.StdIn.readInt()
+		println("Enter Column")
+		 col = scala.io.StdIn.readInt
 		
-	println("\n\nLight Player Turn: ")
-	println("Specify where you are jumping from and to")
-	println("\nFrom")
-	println("Enter Row")
-	val row3 = scala.io.StdIn.readInt()
-	println("Enter Column")
-	val col3 = scala.io.StdIn.readInt
+		println("\nTo")
+		println("Enter Row 2")
+		 row2 = scala.io.StdIn.readInt()
+		println("Enter Column 2")
+		 col2 = scala.io.StdIn.readInt()
+	}while(!makeJump(row, col, row2, col2));
 	
-	println("\nTo")
-	println("Enter Row 2")
-	val row4 = scala.io.StdIn.readInt()
-	println("Enter Column 2")
-	val col4 = scala.io.StdIn.readInt()
-
-	makeJump(row3, col3, row4, col4)
+	do
+	{	
+		println("\n\nLight Player Turn: ")
+		println("Specify where you are jumping from and to")
+		println("\nFrom")
+		println("Enter Row")
+		 row3 = scala.io.StdIn.readInt()
+		println("Enter Column")
+		 col3 = scala.io.StdIn.readInt
+		
+		println("\nTo")
+		println("Enter Row 2")
+		 row4 = scala.io.StdIn.readInt()
+		println("Enter Column 2")
+		 col4 = scala.io.StdIn.readInt()
+	}while(!makeJump(row3, col3, row4, col4));
 	
 	for (r <- 0 until boardSize){
 		for (c <- 0 until 8){
@@ -170,46 +190,30 @@ def mainGame: String = {
 	
 }
 
-def makeJump(row:Int, col:Int, row2:Int, col2:Int) = {
-	jump(row,col,row2,col2)
-	empty(row,col)
+def makeJump(row:Int, col:Int, row2:Int, col2:Int): Boolean = {
 	
-	if(row - row2 == 2){
-		empty(row - 1, col)
+	val newCol = colConversion(col)
+	val newCol2 = colConversion(col2)
+
+	if(canMakeJump(row, col, row2, col2))
+	{
+		jump(row,col,row2,col2)
+		empty(row,col)
+
+		printBoard
+		return true
 	}
-	if(row - row2 == -2){
-		empty(row + 1, col)
+	else
+	{
+		println("Couldnt make jump")
+		printBoard
+		return false
 	}
-	if(col - col2 == 2){
-		empty(row, col - 1)
-	}
-	if(col - col2 == -2){
-		empty(row, col + 1)
-	}
-	
-	if(row - row2 == 4){
-		empty(row - 1, col)
-		empty(row - 3, col)
-	}
-	if(row - row2 == -4){
-		empty(row + 1, col)
-		empty(row + 3, col)
-	}
-	if(col - col2 == 4){
-		empty(row, col - 1)
-		empty(row, col - 3)
-		
-	}
-	if(col - col2 == -4){
-		empty(row, col + 1)
-		empty(row, col + 3)
-	}
-	
-	printBoard
 	
 }
 
 def printBoard = {
+	
 	var numbOfRows = 8
 	
 	// 1 to 8
@@ -222,37 +226,75 @@ def printBoard = {
 		println()
 		print (numbOfRows + " |")
 		numbOfRows = numbOfRows - 1
-	for (row <- 0 until boardSize){
-		print(boardArray(row)(col) + " |" + " ")
+		for (row <- 0 until boardSize){
+			print(boardArray(row)(col) + " |" + " ")
+		}
 	}
 }
+
+def canMakeJump(row:Int, col:Int, row2:Int, col2:Int): Boolean = {
+
+	val newCol = colConversion(col)+1
+	val newCol2 = colConversion(col2)+1
+
+	if(!isValidSpace(row, col) || !isValidSpace(row2, col2))
+		return false;
+	if(spaceIsEmpty(row, col) || !spaceIsEmpty(row2, col2))
+		return false;
+
+	val rowTemp = row2 - row
+	val colTemp = newCol2 - newCol
+	
+	if(rowTemp == 2 && colTemp == 0)
+	{
+		if(spaceIsEmpty(row+1, col) || !spaceIsEmpty(row+2, col))
+			return false
+		else 
+			return true
+	}	
+	if(rowTemp == -2 && colTemp == 0)
+	{
+		if(spaceIsEmpty(row-1, col) || !spaceIsEmpty(row-2, col))
+			return false
+		else 
+			return true
+	}	
+	if(rowTemp == 0 && colTemp == 2)
+	{
+		if(spaceIsEmpty(row, col - 1) || !spaceIsEmpty(row, col - 2))
+			return false
+		else 
+			return true
+	}	
+	if(rowTemp == 0 && colTemp == -2)
+	{
+		if(spaceIsEmpty(row, col + 1) || !spaceIsEmpty(row, col + 2))
+			return false
+		else 
+			return true
+	}	
+
+	return false	
 }
 
 def empty(row:Int, col:Int) = {
-	if(col == 8){
-		boardArray(row-1)(col-8) = "."	
-	}
-	if(col == 7){
-		boardArray(row-1)(col-6) = "."
-	}
-	if(col == 6){
-		boardArray(row-1)(col-4) = "."
-	}
-	if(col == 5){
-		boardArray(row-1)(col-2) = "."
-	}
-	if(col == 4){
-		boardArray(row-1)(col) = "."
-	}
-	if(col == 3){
-		boardArray(row-1)(col+2) = "."
-	}
-	if(col == 2){
-		boardArray(row-1)(col+4) = "."
-	}
-	if(col == 1){
-		boardArray(row-1)(col+6) = "."
-	}
+	
+	val newCol = colConversion(col)
+
+	boardArray(row-1)(newCol) = "."
+
+}
+
+def isValidSpace(row:Int, col:Int): Boolean = {
+
+	return (row <= 8 && row >= 1 && col <= 8 && col >= 1)
+}
+
+def spaceIsEmpty(row:Int, col:Int): Boolean = {
+
+	val newCol = colConversion(col)	
+
+	return (boardArray(row-1)(newCol) == ".")
 }
 
 def jump(row:Int, col:Int, row2:Int, col2:Int) = {
@@ -261,6 +303,26 @@ def jump(row:Int, col:Int, row2:Int, col2:Int) = {
 	val newCol2 = colConversion(col2)
 
 	boardArray(row2-1)(newCol2) = boardArray(row-1)(newCol)
+
+	val rowTemp = row2 - row
+	val colTemp = newCol2 - newCol
+	
+	if(rowTemp == 2 && colTemp == 0)
+	{
+		empty(row+1, col)
+	}	
+	if(rowTemp == -2 && colTemp == 0)
+	{
+		empty(row-1, col)
+	}	
+	if(rowTemp == 0 && colTemp == 2)
+	{
+		empty(row, col-1)
+	}	
+	if(rowTemp == 0 && colTemp == -2)
+	{
+		empty(row, col+1)
+	}
 }
 
 def colConversion(col: Int): Int = col match {
