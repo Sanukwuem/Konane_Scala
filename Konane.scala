@@ -1,4 +1,3 @@
-//////////////////////////////////////////
 var number = 0 //number counting the number of columns and rows
 var col = 0
 var row = 0
@@ -8,14 +7,14 @@ var numbOfColumns = 8
 
 
 val boardArray = Array.ofDim[String](8, 8)
-///////////////////////////////////////////
+
 
 // Start of game
 initialBoard
 pickPieces
 mainGame
 
-//////////////////////////////////////////////////////////////////////////////////////////
+
 
 //board
 def initialBoard = {
@@ -63,7 +62,7 @@ def initialBoard = {
 	}
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////
+
 
 def pickPieces = {
 	
@@ -295,7 +294,6 @@ def spaceIsEmpty(row:Int, col:Int): Boolean = {
 	val newCol = colConversion(col)	
 
 	return (boardArray(row-1)(newCol) == ".")
-}
 
 def jump(row:Int, col:Int, row2:Int, col2:Int) = {
 
