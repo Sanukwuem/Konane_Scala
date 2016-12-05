@@ -294,6 +294,7 @@ def spaceIsEmpty(row:Int, col:Int): Boolean = {
 	val newCol = colConversion(col)	
 
 	return (boardArray(row-1)(newCol) == ".")
+}
 
 def jump(row:Int, col:Int, row2:Int, col2:Int) = {
 
