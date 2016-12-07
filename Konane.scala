@@ -148,50 +148,6 @@ def mainGame: String = {
 		minimax
 	}
 	
-=======
-	var row = 0
-	var col = 0
-	var row2 = 0
-	var col2 = 0 
-	var row3 = 0
-	var col3 = 0
-	var row4 = 0
-	var col4 = 0
-	do
-	{
-		println("\n\nDark Player Turn: ")
-		println("Specify where you are jumping from and to")
-		println("\nFrom")
-		println("Enter Row")
-		 row = scala.io.StdIn.readInt()
-		println("Enter Column")
-		 col = scala.io.StdIn.readInt
-		
-		println("\nTo")
-		println("Enter Row 2")
-		 row2 = scala.io.StdIn.readInt()
-		println("Enter Column 2")
-		 col2 = scala.io.StdIn.readInt()
-	}while(!makeJump(row, col, row2, col2));
-	
-	do
-	{	
-		println("\n\nLight Player Turn: ")
-		println("Specify where you are jumping from and to")
-		println("\nFrom")
-		println("Enter Row")
-		 row3 = scala.io.StdIn.readInt()
-		println("Enter Column")
-		 col3 = scala.io.StdIn.readInt
-		
-		println("\nTo")
-		println("Enter Row 2")
-		 row4 = scala.io.StdIn.readInt()
-		println("Enter Column 2")
-		 col4 = scala.io.StdIn.readInt()
-	}while(!makeJump(row3, col3, row4, col4));
->>>>>>> 7191843bef870ecbf250fcf38aa2ba6f77369cdf
-	
 	for (r <- 0 until boardSize){
 		for (c <- 0 until 8){
 			if(boardArray(r)(c) == "X"){
