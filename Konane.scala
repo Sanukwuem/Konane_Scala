@@ -1,9 +1,12 @@
+import scala.util.control._
+
 var number = 0 //number counting the number of columns and rows
 var col = 0
 var row = 0
 var boardSize = 8
 var count = 0
 var numbOfColumns = 8
+var state = 1
 
 
 val boardArray = Array.ofDim[String](8, 8)
@@ -109,8 +112,10 @@ def mainGame: String = {
 	var countO = 0
 	var r = 0
 	var c = 0
-
-	println("\n\nDark Player Turn: ")
+	
+	if (state == 1){
+	println("\n\nPlayer's Turn")
+	println("\nDark Player Turn: ")
 	println("Specify where you are jumping from and to")
 	println("\nFrom")
 	println("Enter Row")
@@ -124,22 +129,14 @@ def mainGame: String = {
 	println("Enter Column 2")
 	val col2 = scala.io.StdIn.readInt()
 	makeJump(row, col, row2, col2)
-		
-	println("\n\nLight Player Turn: ")
-	println("Specify where you are jumping from and to")
-	println("\nFrom")
-	println("Enter Row")
-	val row3 = scala.io.StdIn.readInt()
-	println("Enter Column")
-	val col3 = scala.io.StdIn.readInt
 	
-	println("\nTo")
-	println("Enter Row 2")
-	val row4 = scala.io.StdIn.readInt()
-	println("Enter Column 2")
-	val col4 = scala.io.StdIn.readInt()
-
-	makeJump(row3, col3, row4, col4)
+	state = 2
+	}
+	
+	if (state == 2){
+		minimax
+	}
+	
 	
 	for (r <- 0 until boardSize){
 		for (c <- 0 until 8){
@@ -167,6 +164,92 @@ def mainGame: String = {
 	
 	mainGame
 	
+} 
+
+def minimax = {
+ 
+val loop = new Breaks
+
+loop.breakable {
+for (col <- 0 until boardSize){
+	for (row <- 0 until boardSize){
+		val row2 = row+2
+		val col2 = col
+		
+		val row3 = row-2
+		val col3 = col
+		
+		val row4 = row
+		val col4 = col+2
+		
+		val row5 = row
+		val col5 = col-2
+		
+		
+		    if (boardArray(row)(col) == "O" && row <= 5 && boardArray(row+1)(col) == "X"){
+			if(boardArray(row2)(col2) == "."){
+			var newRow = row+1
+			var newCol = colConversion(col)
+			var newRow2 = row2+1
+			var newCol2 = colConversion(col2)
+			println("\n")
+			println("\n" + "Computer jumped from " + newRow + "," + newCol + " to " + newRow2 + "," + newCol2)
+			println("\n")
+			makeJump(newRow, newCol, newRow2, newCol2)
+			loop.break
+			}
+			} else if (boardArray(row)(col) == "O" && row >= 2 && boardArray(row-1)(col) == "X"){
+			if(boardArray(row3)(col3) == "."){
+			println(row)
+			println(col)
+			println(row3)
+			println(col3)
+			var newRow = row+1
+			var newCol = colConversion(col)
+			var newRow2 = row3+1
+			var newCol2 = colConversion(col3)
+			println("\n")
+			println("\n" + "Computer jumped from " + newRow + "," + newCol + " to " + newRow2 + "," + newCol2)
+			println("\n")
+			makeJump(newRow, newCol, newRow2, newCol2)
+			loop.break
+			}
+			} else if (boardArray(row)(col) == "O" && col <= 5 && boardArray(row)(col+1) == "X"){
+			if(boardArray(row4)(col4) == "."){
+			var newRow = row+1
+			var newCol = colConversion(col)
+			var newRow2 = row4+1
+			var newCol2 = colConversion(col4)
+			println("\n")
+			println("\n" + "Computer jumped from " + newRow + "," + newCol + " to " + newRow2 + "," + newCol2)
+			println("\n")
+			makeJump(newRow, newCol, newRow2, newCol2)
+			loop.break
+			}
+			} else if (boardArray(row)(col) == "O" && col >= 2 && boardArray(row)(col-1) == "X"){
+			if(boardArray(row5)(col5) == "."){
+			println(row)
+			println(col)
+			println(row5)
+			println(col5)
+			var newRow = row+1
+			var newCol = colConversion(col)
+			var newRow2 = row5+1
+			var newCol2 = colConversion(col5)
+			println("\n")
+			println("\n" + "Computer jumped from " + newRow + "," + newCol + " to " + newRow2 + "," + newCol2)
+			println("\n")
+			makeJump(newRow, newCol, newRow2, newCol2)
+			loop.break
+			}
+			}
+			 
+		}	
+	}
+}	
+
+
+	state = 1
 }
 
 def makeJump(row:Int, col:Int, row2:Int, col2:Int) = {
@@ -251,4 +334,5 @@ def colConversion(col: Int): Int = col match {
  	case 3 => 5
  	case 2 => 6
  	case 1 => 7
+	case 0 => 8
 }
