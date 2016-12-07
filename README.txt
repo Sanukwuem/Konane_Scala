@@ -28,6 +28,8 @@ Finally MainGame is called which continuously rotates back and forth from Dark P
 
 Error Handling: When attempting to make a jump, the canMakeJump function is caled to evaluate whether or not the jump is a legal one and returns the respective Boolean value if it can or can not. This function first checks if the initial and final jump locations are valid spaces on the board and that the ending space is empty and the initial space is occupied. It then checks whether or not the space in between the starting and final location is occupied.
 ------------------------------------------------------------------------------------
+AI: The minimax function checks in each direction and calculates a move for the computer based on the location of "O"s
+------------------------------------------------------------------------------------
 Positives:
 
 The program makes great use of modules that can be changed to support added functions.
